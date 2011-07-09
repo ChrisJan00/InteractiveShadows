@@ -4,6 +4,10 @@ var gameControl = new GameControl();
 var keyManager = new KeyManager();
 var player = new Player(200, 200);
 
+function loaderProgress() {
+	return player.complete() ? 100 : 0;
+}
+
 function prepareGame() {
 	var canvas = document.getElementById("gameCanvas");
 	var ctxt = canvas.getContext("2d");
@@ -21,6 +25,7 @@ function prepareGame() {
 		["down", 40],
 		["left", 37],
 		["right", 39],
+		["space", 32]
 	] );
 }
 
@@ -35,4 +40,10 @@ function update(dt) {
 function draw(dt) {
 	player.undraw(dt);
 	player.draw(dt);
+	if (lightsManager.dirty) {
+		lightsManager.computeLights();
+		graphics.redraw();
+		lightsManager.dirty = false;
+	}
+	
 }
