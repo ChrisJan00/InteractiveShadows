@@ -15,7 +15,7 @@ var Player = function(x,y) {
 	
 	self.keys = new( function() { this.check = function( str ) { return false; } } );
 	self.animationStrip = new Image();
-    self.animationStrip.src = "char_am_03.png";
+    self.animationStrip.src = "graphics/char_am_03.png";
     self.standingIndices = new AnimationControl([0]);
 	self.walkingLeftIndices = new AnimationControl([0,1,2,1]);
 	self.walkingRightIndices = new AnimationControl([3,4,5,4]);
