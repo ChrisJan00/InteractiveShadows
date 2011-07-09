@@ -1,5 +1,6 @@
 CollisionsManager = function(){
 	var self = this;
+	//replace this with actual gamedata
 	self.wallShapes = [[200, 120, 40, 20], //[300,120,20,60],
 	//[200,220,100,60]
 	]
