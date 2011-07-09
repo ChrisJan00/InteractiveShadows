@@ -42,7 +42,7 @@ var Player = function(x,y) {
 	self.frameTimer = self.frameDelay;
 	
 	self.carriedLightIndex = -1;
-	self.canCarry = false;
+	self.canCarry = true;
 	
 	self.complete = function() {
 		if (!self.animationStrip.complete)
