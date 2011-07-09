@@ -1,0 +1,7 @@
+The following graphics are from the default SiD tileset - Public Domain assumed (unknown yet)
+candle-*.png
+
+All other graphics are from Galvin's tileset - License unknown yet
+
+
+Some of the images might be edited: shadow were removed, animation frames were created..
