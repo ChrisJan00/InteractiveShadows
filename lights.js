@@ -88,8 +88,8 @@ var LightsManager = function () {
 	    	ctxt.beginPath();
 	    	ctxt.arc(light.x, light.y, 3, 0, Math.PI*2,true);
 	    	ctxt.fill();
-	
 		}
+		graphics.mark(0,0,graphics.width, graphics.height);
 	}
 
 	self.drawShapes = function() {

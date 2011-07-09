@@ -40,4 +40,10 @@ function update(dt) {
 function draw(dt) {
 	player.undraw(dt);
 	player.draw(dt);
+	if (lightsManager.dirty) {
+		lightsManager.computeLights();
+		graphics.redraw();
+		lightsManager.dirty = false;
+	}
+	
 }

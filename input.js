@@ -49,6 +49,13 @@ var KeyManager = function() {
 			self.check = function( keyName ) {
 				return km.keyFlags[self.index][keyName];
 			}
+			self.clicked = function( keyName ) {
+				if (km.keyFlags[self.index][keyName]) {
+					km.keyFlags[self.index][keyName] = false;
+					return true;
+				}
+				return false;
+			}
 		} );
 	}
 

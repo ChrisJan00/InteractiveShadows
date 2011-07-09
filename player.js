@@ -132,6 +132,33 @@ var Player = function(x,y) {
 		if (self.vx<-1) self.vx=-1;
 		if (self.vy>1) self.vy=1;
 		if (self.vy<-1) self.vy=-1;
+		
+		// take the lights
+		if (self.keys.clicked("space")) {
+			self.managePickDropLight();
+		}
+	}
+	
+	self.managePickDropLight = function() {
+		if (!self.carriedLight) {
+			for (var ii=0; ii<lightSources.length; ii++) {
+				var light = lightSources[ii];
+				var dx = light.x - (self.x + self.w/2);
+				var dy = light.y - (self.y + self.h/2);
+				if (dx*dx+dy*dy < self.w*self.w*4) {
+					self.carriedLight = light;
+					lightSources.splice(ii,1);
+					lightsManager.dirty = true;
+					return;
+				}
+			}
+		} else {
+			self.carriedLight.x = self.x;
+			self.carriedLight.y = self.y;
+			lightSources.push(self.carriedLight);
+			self.carriedLight = false;
+			lightsManager.dirty = true;
+		}
 	}
 	
 	self.undraw = function(dt) {
