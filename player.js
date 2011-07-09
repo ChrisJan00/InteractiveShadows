@@ -41,6 +41,8 @@ var Player = function(x,y) {
 	self.frameDelay = 150;
 	self.frameTimer = self.frameDelay;
 	
+	self.carriedLight = -1;
+	
 	self.complete = function() {
 		if (!self.animationStrip.complete)
 			return false;
@@ -62,6 +64,13 @@ var Player = function(x,y) {
 		} else {
 			self.vx = 0;
 			self.vy = 0;
+		}
+		
+		// move the light
+		if (self.carriedLight != -1) {
+			lightSources[self.carriedLight].x = self.x + self.w/2;
+			lightSources[self.carriedLight].y = self.y + self.h/2;
+			lightsManager.dirty = true;
 		}
 		
 		// animation
@@ -139,6 +148,22 @@ var Player = function(x,y) {
 	}
 	
 	self.managePickDropLight = function() {
+		if (self.carriedLight == -1) {
+			for (var ii=0; ii<lightSources.length; ii++) {
+				var light = lightSources[ii];
+				var dx = light.x - (self.x + self.w/2);
+				var dy = light.y - (self.y + self.h/2);
+				if (dx*dx+dy*dy < self.w*self.w*4) {
+					self.carriedLight = ii;
+					return;
+				}
+			}
+		} else {
+			self.carriedLight = -1;
+		}
+	}
+	
+	self.managePickDropLight0 = function() {
 		if (!self.carriedLight) {
 			for (var ii=0; ii<lightSources.length; ii++) {
 				var light = lightSources[ii];

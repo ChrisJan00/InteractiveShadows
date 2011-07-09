@@ -3,8 +3,9 @@ var LightsManager = function () {
 	self.initLights = function() {
 		graphics.background = graphics.createLayer();
 		graphics.lights = [];
-		for (var ii=0; ii<lightSources.length; ii++)
-			graphics.lights.push( graphics.createLayer() );
+//		for (var ii=0; ii<lightSources.length; ii++)
+//			graphics.lights.push( graphics.createLayer() );
+		graphics.lightLayer = graphics.createLayer();
 			
 		var ctxt = graphics.background.getContext("2d");
 		ctxt.fillStyle="#000000";
@@ -15,10 +16,22 @@ var LightsManager = function () {
 	}
 
 	self.computeLights = function() {
+		var baseCanvas = graphics.lightLayer;
+		var baseCtxt = baseCanvas.getContext("2d");
+	
+		var canvas = document.createElement("canvas");
+		canvas.width = graphics.width;
+		canvas.height = graphics.height;
+		var ctxt = canvas.getContext("2d");
+			
+		baseCtxt.clearRect(0,0,graphics.width,graphics.height);
+
 		for (var ii=0; ii<lightSources.length; ii++) {
 			var light = lightSources[ii];
-			var canvas = graphics.lights[ii];
-			var ctxt = canvas.getContext("2d");
+			
+
+//			var canvas = graphics.lights[ii];
+//			var ctxt = canvas.getContext("2d");
 	
 			ctxt.clearRect(0,0,canvas.width,canvas.height);
 			
@@ -79,7 +92,6 @@ var LightsManager = function () {
 	    		ctxt.lineTo(shape[maxPoint][0], shape[maxPoint][1]);
 	    		ctxt.lineTo(shape[minPoint][0], shape[minPoint][1]);
 	    		ctxt.fill();
-	    		
 	    	}
 	    	
 	    	ctxt.globalCompositeOperation = "source-over";
@@ -88,6 +100,7 @@ var LightsManager = function () {
 	    	ctxt.beginPath();
 	    	ctxt.arc(light.x, light.y, 3, 0, Math.PI*2,true);
 	    	ctxt.fill();
+	    	baseCtxt.drawImage(canvas, 0, 0, canvas.width, canvas.height, 0, 0, canvas.width, canvas.height);
 		}
 		graphics.mark(0,0,graphics.width, graphics.height);
 	}
