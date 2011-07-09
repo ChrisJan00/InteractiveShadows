@@ -28,6 +28,22 @@ CollisionsManager = function(){
 		
 		return collided;
 	}
+	self.isInShadow = function (x,y) {
+		var inShadow = true;
+		var screenPixelColour = 1.0;
+		//check all light source canvas layers and check is in shadow in all of them
+		for (var ii = 0; ii < lightSources.length; ii++) {
+			var canvas = graphics.lights[ii];
+			var ctxt = canvas.getContext("2d");
+			var pixelColour = ctxt.getImageData(x, y, 1, 1);
+			//shadow level is stored in alpha channel, so check it is black
+			if (pixelColour.data[3] != 0) {
+				inShadow = false;
+			}
+		}
+		return inShadow;
+	}
+	
 }
 
 collisions = new CollisionsManager();
