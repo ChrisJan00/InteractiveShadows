@@ -60,8 +60,7 @@ var Player = function(x,y) {
 		self.parseKeys();	
 		
 		var candidatePos = self.updatedPos();
-		//if (!GLOBAL.level.collided(candidatePos.x,candidatePos.y,self.w,self.h)) {
-		if (true) {
+		if (!collisions.checkWallCollisions(candidatePos.x,candidatePos.y,self.w,self.h)) {
 			self.x = candidatePos.x;
 			self.y = candidatePos.y;
 		} else {
