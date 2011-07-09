@@ -1,5 +1,12 @@
 var LightsManager = function () {
 	var self = this;
+	self.candlePic = new Image();
+    self.candlePic.src = "graphics/objects/candle-20x26.png";
+	
+	self.complete = function() {
+		return self.candlePic.complete;
+	}
+	
 	self.initLights = function() {
 		graphics.background = graphics.createLayer();
 		graphics.lights = [];
@@ -96,11 +103,20 @@ var LightsManager = function () {
 	    	ctxt.globalCompositeOperation = "source-over";
 	    	ctxt.fillStyle = "#FFFFFF";
 	    	// put the light itself
-	    	ctxt.beginPath();
-	    	ctxt.arc(light.x, light.y, 3, 0, Math.PI*2,true);
-	    	ctxt.fill();
+	    	if (false) {
+		    	ctxt.beginPath();
+		    	ctxt.arc(light.x, light.y, 3, 0, Math.PI*2,true);
+		    	ctxt.fill();
+	    	} 
 	    	baseCtxt.drawImage(canvas, 0, 0, canvas.width, canvas.height, 0, 0, canvas.width, canvas.height);
 		}
+		
+		if (true) {
+			for (var ii=0; ii<lightSources.length; ii++) {
+				if (lightSources[ii].active)
+	    		baseCtxt.drawImage(self.candlePic, lightSources[ii].x - self.candlePic.width/2, lightSources[ii].y-self.candlePic.height/2);
+	    	}
+	   	}
 		graphics.mark(0,0,graphics.width, graphics.height);
 	}
 

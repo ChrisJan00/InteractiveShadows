@@ -5,7 +5,7 @@ var keyManager = new KeyManager();
 var player = new Player(200, 200);
 
 function loaderProgress() {
-	return player.complete() ? 100 : 0;
+	return player.complete() && lightsManager.complete() ? 100 : 0;
 }
 
 function prepareGame() {
