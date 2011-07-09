@@ -28,6 +28,7 @@ CollisionsManager = function(){
 		
 		return collided;
 	}
+	
 	self.isInShadow = function (x,y) {
 		var inShadow = true;
 		var screenPixelColour = 1.0;
@@ -42,6 +43,13 @@ CollisionsManager = function(){
 			}
 		}
 		return inShadow;
+	}
+	
+	self.getShadowAtPoint = function(x,y){
+		var baseCanvas = graphics.lightLayer;
+		var baseCtxt = baseCanvas.getContext("2d");
+		var pixelColour = baseCtxt.getImageData(x, y, 1, 1);
+		return (pixelColour.data[3]);
 	}
 	
 }

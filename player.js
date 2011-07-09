@@ -222,6 +222,9 @@ var Player = function(x,y) {
 			ctxt.drawImage(self.animationStrip,
 				self.animationControl.currentFrame()*self.w, 0, self.w, self.h, self.ix, self.iy, self.w, self.h);
 			graphics.mark(self.ix, self.iy, self.w, self.h);
+			
+			collisions.getShadowAtPoint(self.x,self.y);
+			
 			graphics.redraw();
 		}
 	
