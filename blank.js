@@ -1,16 +1,16 @@
 var shapes = [
  [ [200, 120], [200, 140], [240, 140], [240, 120] ],
  [ [300, 120], [300, 180], [320, 180], [320, 120] ],
- [ [200, 220], [300, 280], [320, 240] ],
+ [ [200, 220], [300, 280], [330, 240] ],
 ];
 
 var lightSources = [
 	{ x: 260, 
 	  y: 200, 
-	  l: 450 },
+	  l: 650 },
 	{ x: 360, 
 	  y: 150, 
-	  l: 450 }
+	  l: 650 }
 	  
 ];
  
@@ -19,14 +19,10 @@ function startGame() {
 	var canvas = document.getElementById("gameCanvas");
 	var ctxt = canvas.getContext("2d");
 	
-//	ctxt.fillStyle = "#FFFFFF";
-//	ctxt.fillRect(0,0,canvas.width, canvas.height);
-//	ctxt.fillStyle = "#FF0000";
-//	ctxt.fillRect(100, 100, 100, 100);
-	
 	graphics.init();
 	initLights();
 	graphics.shapesLayer = graphics.createLayer();
+	graphics.peopleLayer = graphics.createLayer();
 	drawShapes();
 	graphics.redraw();
 }
@@ -50,7 +46,7 @@ function computeLights() {
 		var light = lightSources[ii];
 		var canvas = graphics.lights[ii];
 		var ctxt = canvas.getContext("2d");
-		
+
 		ctxt.clearRect(0,0,canvas.width,canvas.height);
 		
 		// first draw light circle
@@ -109,12 +105,16 @@ function computeLights() {
     		ctxt.arc(light.x, light.y, light.l, minAngle, maxAngle, (distCCw > distCw));
     		ctxt.lineTo(shape[maxPoint][0], shape[maxPoint][1]);
     		ctxt.lineTo(shape[minPoint][0], shape[minPoint][1]);
-    		//ctxt.closePath();
     		ctxt.fill();
     		
     	}
     	
     	ctxt.globalCompositeOperation = "source-over";
+    	ctxt.fillStyle = "#FFFFFF";
+    	// put the light itself
+    	ctxt.beginPath();
+    	ctxt.arc(light.x, light.y, 3, 0, Math.PI*2,true);
+    	ctxt.fill();
 
 	}
 }
