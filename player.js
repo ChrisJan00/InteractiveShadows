@@ -15,10 +15,10 @@ var Player = function(x,y) {
 	
 	self.keys = new( function() { this.check = function( str ) { return false; } } );
 	self.animationStrip = new Image();
-    self.animationStrip.src = "char_am_01.png";
-    self.standingIndices = new AnimationControl([1]);
-	self.walkingRightIndices = new AnimationControl([0,1,2,1]);
+    self.animationStrip.src = "char_am_03.png";
+    self.standingIndices = new AnimationControl([0]);
 	self.walkingLeftIndices = new AnimationControl([0,1,2,1]);
+	self.walkingRightIndices = new AnimationControl([3,4,5,4]);
 	self.walkingUpIndices = new AnimationControl([0,1,2,1]);
 	self.walkingDownIndices = new AnimationControl([0,1,2,1]);
 	
@@ -34,8 +34,8 @@ var Player = function(x,y) {
 	self.speed = 200;
 	self.drag = 0.04;
 	self.accel = 0.1;
-	self.w = 13;
-	self.h = 28;
+	self.w = 14;
+	self.h = 29;
 	self.currentFrame = 0;
 	self.dts = 0;
 	self.frameDelay = 150;
