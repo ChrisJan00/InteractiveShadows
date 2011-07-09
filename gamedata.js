@@ -7,12 +7,15 @@ var shapes = [
 var lightSources = [
 	{ x: 260, 
 	  y: 200, 
-	  l: 650 },
+	  l: 650,
+	  active: true },
 	{ x: 360, 
 	  y: 150, 
-	  l: 650 },
+	  l: 650,
+	  active: true },
 	{ x: 360, 
 	  y: 400, 
-	  l: 650 }
+	  l: 650,
+	  active: true }
 	  
 ];
