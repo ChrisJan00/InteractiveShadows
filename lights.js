@@ -29,10 +29,9 @@ var LightsManager = function () {
 		for (var ii=0; ii<lightSources.length; ii++) {
 			var light = lightSources[ii];
 			
+			if (!light.active) 
+				continue;
 
-//			var canvas = graphics.lights[ii];
-//			var ctxt = canvas.getContext("2d");
-	
 			ctxt.clearRect(0,0,canvas.width,canvas.height);
 			
 			// first draw light circle
