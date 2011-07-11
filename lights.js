@@ -138,26 +138,26 @@ var LightsManager = function () {
 				continue;
 
 			ctxt.fillStyle = "rgba(255,255,255,0.4)";
+			ctxt.clearRect(0,0,canvas.width, canvas.height);
 			ctxt.fillRect(0,0,canvas.width,canvas.height);
 		    
 	    	
 	    	ctxt.globalCompositeOperation = "destination-out"
 	    	ctxt.fillStyle = "#FFFFFF";
 	    	
+	    	var dist1 = -1;
+	    	var index1 = -1;
 	    	// now cut the shadows
 	    	for (var jj=0; jj<shapes.length; jj++) {
 	    		var shape = shapes[jj];
 	    		
 	    		// 1. find the projections of the points
 	    		var proj = [];
-	    		var maxAngle = -Math.PI-1;
-	    		var minAngle = Math.PI+1;
 	    		var minPoint = -1;
 	    		var maxPoint = -1;
 	    		for (var kk=0; kk<shape.length; kk++) {
 	    			var dx = shape[kk][0] - light.x;
 	    			var dy = shape[kk][1] - light.y;
-	    			var angle = Math.atan2(dy, dx);
 	    			
 	    			var xp, yp;
 	    			if (dx < 0) {
@@ -172,25 +172,61 @@ var LightsManager = function () {
 	    				xp = light.x + (graphics.height - light.y) * dx / dy;
 	    			} else xp = dx<=0? 0 : graphics.width;
 	    			
-	    			if (yp < 0 || yp > graphics.height) xp = dx<=0? 0 : graphics.width;
-	    			if (xp < 0 || xp > graphics.width) yp = dy<=0? 0: graphics.height;
+	    			var xp2 = xp, yp2 = yp;
 	    			
-	    			proj.push([xp, yp, angle]);
-	    			if (angle > maxAngle) {
-	    				maxAngle = angle;
-	    				maxPoint = kk;
+	    			if (yp < 0 || yp > graphics.height) {
+	    				xp = dx<=0? 0 : graphics.width;
+	    				yp2 = yp<0? 0 : graphics.height; 
 	    			}
-	    			if (angle < minAngle) {
-	    				minAngle = angle;
-	    				minPoint = kk;
+	    			if (xp < 0 || xp > graphics.width) {
+	    				yp = dy<=0? 0: graphics.height;
+	    				xp2 = xp<0? 0 : graphics.width;
+	    			}
+	    			proj.push([xp, yp, xp2, yp2]);
+	    			
+	    			if (kk > 0) {
+	    				dx = (xp2-proj[0][2]);
+	    				dy = (yp2-proj[0][3]);
+	    				var dist = dx*dx+dy*dy;
+	    				if (dist > dist1) {
+	    					dist1 = dist;
+	    					index1 = kk;
+	    				}
 	    			}
 	    		}
 	    		
+	    		// find point 2
+	    		var dist2 = -1;
+	    		var index2 = -1;
+	    		for (var kk=0; kk<proj.length; kk++) {
+	    			if (kk==index1) continue;
+	    			var dx = proj[kk][2] - proj[index1][2];
+	    			var dy = proj[kk][3] - proj[index1][3];
+	    			var dist = dx*dx+dy*dy;
+	    			if (dist > dist2) {
+	    				dist2 = dist;
+	    				index2 = kk;
+	    			}
+ 	    		}
+ 	    		
+ 	    		index1 = -1;
+ 	    		dist1 = -1;
+ 	    		for (var kk=0; kk<proj.length; kk++) {
+ 	    			if (kk == index2) continue;
+	    			var dx = proj[kk][2] - proj[index2][2];
+	    			var dy = proj[kk][3] - proj[index2][3];
+	    			var dist = dx*dx+dy*dy;
+	    			if (dist > dist1) {
+	    				dist1 = dist;
+	    				index1 = kk;
+	    			}
+ 	    		}
+	    		
 	    		ctxt.beginPath();
-	    		ctxt.moveTo(proj[minPoint][0], proj[minPoint][1]);
-				ctxt.lineTo(proj[maxPoint][0], proj[maxPoint][1]);
-				ctxt.lineTo(shape[maxPoint][0], shape[maxPoint][1]);
-	    		ctxt.lineTo(shape[minPoint][0], shape[minPoint][1]);
+	    		ctxt.moveTo(proj[index1][0], proj[index1][1]);
+				ctxt.lineTo(proj[index2][0], proj[index2][1]);
+				ctxt.lineTo(shape[index2][0], shape[index2][1]);
+	    		ctxt.lineTo(shape[index1][0], shape[index1][1]);
 	    		ctxt.fill();
 	    	}
 	    	
